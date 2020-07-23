@@ -224,6 +224,7 @@
     <string name="driving_time">ड्राइविंग का समय</string>
     <string name="sub_user">उप उपयोगकर्ता</string>
     <string name="add_sub_user">उप उपयोगकर्ता जोड़ें</string>
+    <string name="delete_sub_user">हटाएं</string>
     <string name="call_driver">कॉल \n ड्राइवर</string>
     <string name="all_activity">सभी \n गतिविधि</string>
     <string name="engine_on_off">इंजन\n(शुरू/बंद)</string>

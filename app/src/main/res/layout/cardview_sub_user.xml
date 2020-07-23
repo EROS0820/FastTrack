@@ -229,12 +229,22 @@
            android:id="@+id/checkbox"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_alignParentEnd="true"
+           android:layout_toLeftOf="@+id/btn_user_delete"
            android:layout_centerVertical="true"
            android:layout_marginEnd="@dimen/margin_10"
            />
+       <TextView
+           android:id="@+id/btn_user_delete"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentEnd="true"
+           android:layout_centerVertical="true"
+           android:text="@string/delete_sub_user"
+           style="@style/TextButton"
+           android:background="@color/colorPrimary2"
+       />
 
-           />
+       />
    </RelativeLayout>
 
 </LinearLayout>

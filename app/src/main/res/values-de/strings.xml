@@ -234,6 +234,7 @@
     <string name="driving_time">Driving Time</string>
     <string name="sub_user">Sub User</string>
     <string name="add_sub_user">Add Sub User</string>
+    <string name="delete_sub_user">Delete</string>
     <string name="call_driver">Call\nDriver</string>
     <string name="all_activity">All\nActivity</string>
     <string name="engine_on_off">Engine\n(On/Off)</string>

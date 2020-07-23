@@ -132,7 +132,19 @@ public class SubUserAdapter extends RecyclerView.Adapter<SubUserAdapter.MyViewHo
             }
         });
 
+        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String token = AppPreferences.loadPreferences(mContext, VariablesConstant.TOKEN);
+                String UId = holder.tv_subUserId.getText().toString().trim();
 
+                if (CheckNetwork.isNetworkAvailable(mContext)) {
+
+                } else {
+                    Toasty.warning(mContext, mContext.getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -213,6 +225,7 @@ public class SubUserAdapter extends RecyclerView.Adapter<SubUserAdapter.MyViewHo
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_name,tv_mobileno,tv_email, tv_subUserId;
         CheckBox checkbox;
+        TextView btn_delete;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -222,7 +235,7 @@ public class SubUserAdapter extends RecyclerView.Adapter<SubUserAdapter.MyViewHo
             tv_mobileno =  itemView.findViewById(R.id.tv_mobileno);
             tv_email =  itemView.findViewById(R.id.tv_email);
             checkbox =  itemView.findViewById(R.id.checkbox);
-
+            btn_delete = itemView.findViewById(R.id.btn_user_delete);
             itemView.setOnClickListener(this); // bind the listener
 
         }
