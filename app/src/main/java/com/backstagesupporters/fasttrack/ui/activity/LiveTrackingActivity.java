@@ -464,7 +464,17 @@ public class LiveTrackingActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.iv_refresh:
-                startActivity(new Intent(mContext, LiveTrackingActivity.class));
+                Intent intent = new Intent(mContext, LiveTrackingActivity.class);
+                intent.putExtra(VariablesConstant.VEHICLE_ID, vehicle_id);
+                intent.putExtra(VariablesConstant.VEHICLE_NAME, vehicle_name);
+                intent.putExtra(VariablesConstant.VEHICLE_NUMBER, vehicle_no);
+                intent.putExtra(VariablesConstant.VEHICLE_TYPE, vehicle_type);
+                intent.putExtra(VariablesConstant.VEHICLE_COLOR, vehicle_color);
+                intent.putExtra(VariablesConstant.DRIVER_CONTACT_NUMBER, driver_number);
+                intent.putExtra(VariablesConstant.EMERGENCY_CONTACT_NUMBER, sos_number);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lng", lng);
+                mContext.startActivity(intent);
                 finish();
                 break;
 
