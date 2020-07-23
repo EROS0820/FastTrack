@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.backstagesupporters.fasttrack.R;
 import com.backstagesupporters.fasttrack.models.SubUser;
+import com.backstagesupporters.fasttrack.models.SubUserDeleteListner;
 import com.backstagesupporters.fasttrack.responseClass.SubUserStatusResponse;
 import com.backstagesupporters.fasttrack.retrofitAPI.ApiClient;
 import com.backstagesupporters.fasttrack.retrofitAPI.ApiInterface;
@@ -52,11 +53,12 @@ public class SubUserAdapter extends RecyclerView.Adapter<SubUserAdapter.MyViewHo
 
     ApiInterface apiInterface;
     ProgressDialog pd;
+    SubUserDeleteListner listner;
 
-
-    public SubUserAdapter(Context mContext, List<SubUser> deviceModels) {
+    public SubUserAdapter(Context mContext, List<SubUser> deviceModels, SubUserDeleteListner listner) {
         this.dataList = deviceModels;
         this.mContext = mContext;
+        this.listner = listner;
 //        Log.i(TAG,"-- constructor");
     }
 
@@ -139,6 +141,7 @@ public class SubUserAdapter extends RecyclerView.Adapter<SubUserAdapter.MyViewHo
                 String UId = holder.tv_subUserId.getText().toString().trim();
 
                 if (CheckNetwork.isNetworkAvailable(mContext)) {
+                    deleteSubUser(token, UId);
 
                 } else {
                     Toasty.warning(mContext, mContext.getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
@@ -184,6 +187,47 @@ public class SubUserAdapter extends RecyclerView.Adapter<SubUserAdapter.MyViewHo
                                 sub_user_status = sub_userResponse.getSubUserStatus();
 //                                Log.w(TAG, "sub_user_status : " + sub_user_status);
 
+                            } else {
+                                Log.e(TAG, "status Error "+status);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubUserStatusResponse> call, Throwable t) {
+                pd.dismiss();
+                Log.e(TAG,"onFailure: "+t.toString());
+            }
+        });
+    }
+
+    // API delete sub user
+    private void deleteSubUser( String token,String user_id) {
+        pd = new ProgressDialog(mContext);
+        pd.setMessage("Loading Please Wait...");
+        pd.setCancelable(false);
+        pd.show();
+
+        Call<SubUserStatusResponse> call = apiInterface.delete_sub_user(token,user_id);
+
+        call.enqueue(new Callback<SubUserStatusResponse>() {
+            @Override
+            public void onResponse(Call<SubUserStatusResponse> call, Response<SubUserStatusResponse> response) {
+                pd.dismiss();
+                String str_response = new Gson().toJson(response.body());
+                int responseCode  = response.code();
+                try {
+                    if (responseCode == 200){
+                        if (response.isSuccessful()) {
+                            SubUserStatusResponse sub_userResponse = response.body();
+                            int status = sub_userResponse.getStatus();
+                            if (status == 200) {
+//                                sub_user_status = sub_userResponse.getSubUserStatus();
+                                listner.delete();
                             } else {
                                 Log.e(TAG, "status Error "+status);
                             }

@@ -262,6 +262,10 @@ public interface ApiInterface {
                                                 );
     // getSubUSerStatusCall(token,uId,accountStatus);
 
+    @POST(EndApi.DELETE_SUB_USER)
+    Call<SubUserStatusResponse> delete_sub_user(@Query("token") String token,
+                                                @Query("user_id") String user_id);
+
     @POST(EndApi.SUB_USER_STATUS)
     Call<SubUserStatusResponse> sub_user_status(@Query("user_id") String vehicle_id,
                                                 @Query("token") String token);

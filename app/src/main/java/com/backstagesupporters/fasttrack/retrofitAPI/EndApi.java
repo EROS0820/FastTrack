@@ -34,6 +34,7 @@ public class EndApi extends BaseApi {
     public static final String HISTORY_REPLAY = "history_replay";
     public static final String TRIP_REPORT = "trip_report";
     public static final String SUB_USER_STATUS = "sub_user_status";
+    public static final String DELETE_SUB_USER = "delete_sub_user";
     public static final String NOTIFICATION = "notifications";
     public static final String CAR_ACTIVITY = "car_activity";
     public static final String TICKER_MSG = "tickermessage";

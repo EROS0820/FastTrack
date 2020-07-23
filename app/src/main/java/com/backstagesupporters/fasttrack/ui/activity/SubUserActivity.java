@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.backstagesupporters.fasttrack.BaseActivity;
 import com.backstagesupporters.fasttrack.HomeActivity;
 import com.backstagesupporters.fasttrack.R;
+import com.backstagesupporters.fasttrack.models.SubUserDeleteListner;
 import com.backstagesupporters.fasttrack.ui.adapters.SubUserAdapter;
 import com.backstagesupporters.fasttrack.models.SubUser;
 import com.backstagesupporters.fasttrack.responseClass.ShowSubUserResponse;
@@ -54,7 +55,7 @@ import retrofit2.Response;
 
 
 
-public class SubUserActivity extends BaseActivity implements ItemClickListener {
+public class SubUserActivity extends BaseActivity implements ItemClickListener, SubUserDeleteListner {
     //    private String TAG= getClass().getSimpleName();
     private static final String TAG = "fasttrack";
     private Context mContext;
@@ -120,7 +121,7 @@ public class SubUserActivity extends BaseActivity implements ItemClickListener {
         recyclerView.setLayoutManager(verticalManager);
 //        Log.e(TAG, "VehiclesResponse-listVehicle size :" + subUSerList.size());
         if (!subUSerList.isEmpty()){
-            adapter = new SubUserAdapter(mContext,subUSerList);
+            adapter = new SubUserAdapter(mContext,subUSerList, this);
 //        adapter = new DeviceAdapter(mContext,getDummyData());
             recyclerView.setAdapter(adapter);
             adapter.setClickListener(this); // Bind the listener
@@ -290,6 +291,10 @@ public class SubUserActivity extends BaseActivity implements ItemClickListener {
         finish();
     }
 
+    @Override
+    public void delete() {
+        getShowSubUsersCall(token);
+    }
 
 
     class SubUserAdapter3 extends BaseAdapter {
