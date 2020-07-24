@@ -638,7 +638,7 @@ public class LiveTrackingActivity extends BaseActivity implements View.OnClickLi
     private void engineOnOffMethodDialog(){
         String engine_status_msg="";
 
-        engine_status_msg = getString(R.string.do_you_want_change_engine);
+        engine_status_msg = getString(R.string.do_you_want_change_engine_status);
 
         new FancyGifDialog.Builder(this)
                 .setTitle(getString(R.string.engine_status))

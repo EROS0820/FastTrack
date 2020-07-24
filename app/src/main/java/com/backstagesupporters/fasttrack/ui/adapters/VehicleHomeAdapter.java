@@ -253,7 +253,7 @@ public class VehicleHomeAdapter extends RecyclerView.Adapter<VehicleHomeAdapter.
        String token = AppPreferences.loadPreferences(context,VariablesConstant.TOKEN);
         String engine_status_msg="";
 
-        engine_status_msg = mContext.getString(R.string.do_you_want_change_engine);
+        engine_status_msg = mContext.getString(R.string.do_you_want_change_engine_status);
 
         new FancyGifDialog.Builder((Activity)mContext)
                 .setTitle(mContext.getString(R.string.engine_status))
