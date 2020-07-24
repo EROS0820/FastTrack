@@ -637,22 +637,16 @@ public class LiveTrackingActivity extends BaseActivity implements View.OnClickLi
 
     private void engineOnOffMethodDialog(){
         String engine_status_msg="";
-        String getEngine_status = AppPreferences.loadPreferences(mContext, VariablesConstant.ENGINE_STATUS);
-        String engine_status_bg = AppPreferences.loadPreferences(mContext, VariablesConstant.ENGINE_STATUS_BG);
 
-        if (engine_status_bg.equalsIgnoreCase("1")){
-            engine_status_msg = getString(R.string.do_you_want_engine_off);
-        }else if (engine_status_bg.equalsIgnoreCase("0")){
-            engine_status_msg = getString(R.string.do_you_want_engine_on);
-        }
+        engine_status_msg = getString(R.string.do_you_want_change_engine);
 
         new FancyGifDialog.Builder(this)
                 .setTitle(getString(R.string.engine_status))
                 .setMessage(engine_status_msg)
                 .setNegativeBtnBackground("#000000")
-                .setNegativeBtnText(getString(R.string.cancel))  // Cancel
+                .setNegativeBtnText(getString(R.string.engine_on_dialog))  // Cancel
                 .setPositiveBtnBackground("#000000")
-                .setPositiveBtnText(getString(R.string.ok))
+                .setPositiveBtnText(getString(R.string.engine_off_dialog))
                 .setGifResource(R.drawable.engine_b)   //Pass your Gif here
                 .isCancellable(true)
                 .OnPositiveClicked(new FancyGifDialogListener() {
@@ -661,7 +655,7 @@ public class LiveTrackingActivity extends BaseActivity implements View.OnClickLi
 
                         // ======= API Call ==========
                         if (CheckNetwork.isNetworkAvailable(mContext)) {
-                            getEngineStatusCall(token,vehicle_id);
+                            getEngineStatusCall(token,vehicle_id, "0");
                         } else {
                             Toasty.warning(mContext, getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
                         }
@@ -670,6 +664,12 @@ public class LiveTrackingActivity extends BaseActivity implements View.OnClickLi
                 .OnNegativeClicked(new FancyGifDialogListener() {
                     @Override
                     public void OnClick() {
+                        // ======= API Call ==========
+                        if (CheckNetwork.isNetworkAvailable(mContext)) {
+                            getEngineStatusCall(token,vehicle_id, "1");
+                        } else {
+                            Toasty.warning(mContext, getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .build();
@@ -848,7 +848,12 @@ public class LiveTrackingActivity extends BaseActivity implements View.OnClickLi
     }
 
     // engine_status
-    private void getEngineStatusCall(String token, String vehicleId) {
+    private void getEngineStatusCall(String token, String vehicleId, String status) {
+        String engine_status_bg = AppPreferences.loadPreferences(mContext, VariablesConstant.ENGINE_STATUS_BG);
+
+        if (engine_status_bg.equalsIgnoreCase(status)){
+            return;
+        }
         pd = new ProgressDialog(mContext);
         pd.setMessage("Loading Please Wait...");
         pd.setCancelable(false);

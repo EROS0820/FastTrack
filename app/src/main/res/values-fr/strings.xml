@@ -266,6 +266,7 @@
     <string name="engine_status">Engine status</string>
     <string name="do_you_want_engine_on">Do you want Engine on?</string>
     <string name="do_you_want_engine_off">Do you want Engine off?</string>
+    <string name="do_you_want_change_engine">Do you want change Engine?</string>
     <string name="roadSideAssistance">Road Side Assistance</string>
     <string name="rsa">RSA</string>
     <string name="title_activity_settings">Settings</string>

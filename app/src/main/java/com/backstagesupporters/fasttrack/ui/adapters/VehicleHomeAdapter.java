@@ -1,5 +1,6 @@
 package com.backstagesupporters.fasttrack.ui.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -250,31 +251,44 @@ public class VehicleHomeAdapter extends RecyclerView.Adapter<VehicleHomeAdapter.
     //   getEngineStatusCall(token,vehicle_id);
     private void engineOnOffMethodDialog(Context context,String vehicle_id2 ,String massage, String title, int engStatus, MyViewHolder holder ) {
        String token = AppPreferences.loadPreferences(context,VariablesConstant.TOKEN);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title)
-                .setMessage(massage)
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-//                        Log.v(TAG,"engineOnOffMethodDialog My vehicle_id: "+vehicle_id2);
+        String engine_status_msg="";
+
+        engine_status_msg = mContext.getString(R.string.do_you_want_change_engine);
+
+        new FancyGifDialog.Builder((Activity)mContext)
+                .setTitle(mContext.getString(R.string.engine_status))
+                .setMessage(engine_status_msg)
+                .setNegativeBtnBackground("#000000")
+                .setNegativeBtnText(mContext.getString(R.string.engine_on_dialog))  // Cancel
+                .setPositiveBtnBackground("#000000")
+                .setPositiveBtnText(mContext.getString(R.string.engine_off_dialog))
+                .setGifResource(R.drawable.engine_b)   //Pass your Gif here
+                .isCancellable(true)
+                .OnPositiveClicked(new FancyGifDialogListener() {
+                    @Override
+                    public void OnClick() {
+
                         // ======= API Call ==========
                         if (CheckNetwork.isNetworkAvailable(mContext)) {
-
-                            getEngineStatusCall(token,vehicle_id2, engStatus, title, holder);
+                            getEngineStatusCall(token,vehicle_id2, 0, holder);
                         } else {
-                            Toasty.warning(mContext,  mContext.getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
+                            Toasty.warning(mContext, mContext.getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                .OnNegativeClicked(new FancyGifDialogListener() {
+                    @Override
+                    public void OnClick() {
+                        // ======= API Call ==========
+                        if (CheckNetwork.isNetworkAvailable(mContext)) {
+                            getEngineStatusCall(token,vehicle_id2, 1, holder);
+                        } else {
+                            Toasty.warning(mContext, mContext.getString(R.string.err_msg_internet), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                });
+                })
+                .build();
         //Creating dialog box
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
 
@@ -404,7 +418,7 @@ public class VehicleHomeAdapter extends RecyclerView.Adapter<VehicleHomeAdapter.
 
 
     // engine_status
-    private void getEngineStatusCall(String token, String vehicle_id2, int engStatus, String title, MyViewHolder holder) {
+    private void getEngineStatusCall(String token, String vehicle_id2, int engStatus,  MyViewHolder holder) {
 //        Log.w(TAG, "vehicle_id2 :" + vehicle_id2);
 //        Log.w(TAG, "engStatus :" + engStatus);
         pd = new ProgressDialog(mContext);
@@ -424,9 +438,9 @@ public class VehicleHomeAdapter extends RecyclerView.Adapter<VehicleHomeAdapter.
                 int  responseCode  = response.code();
 //                Log.e(TAG, "responseCode :" + responseCode);
 
-                if (title.equalsIgnoreCase(mContext.getString(R.string.engine_on))){
+                if (vehicle_id2.equalsIgnoreCase("1")){
                     playSound1();
-                }else if (title.equalsIgnoreCase(mContext.getString(R.string.engine_off))) {
+                }else if (vehicle_id2.equalsIgnoreCase("0")) {
                     playSound2();
                 }
 
